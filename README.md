@@ -97,4 +97,53 @@ def lambda_handler(event, context):
         'body': json.dumps('Messages processed and saved to S3')
     }
 ```
-## dsfv
+
+## Testing
+
+### Sample SQS Message
+```json
+{
+    "orderId": "12345",
+    "customerName": "John Doe",
+    "items": [
+        {
+            "productId": "PRD-001",
+            "quantity": 2,
+            "price": 29.99
+        },
+        {
+            "productId": "PRD-002",
+            "quantity": 1,
+            "price": 49.99
+        }
+    ],
+    "totalAmount": 109.97,
+    "orderDate": "2024-02-23T14:30:00Z"
+}
+```
+
+### Lambda test event
+```json
+{
+  "Records": [
+    {
+      "messageId": "19dd0b57-b21e-4ac1-bd88-01bbb068cb78",
+      "receiptHandle": "MessageReceiptHandle",
+      "body": "{\"orderId\": \"12345\", \"customerName\": \"John Doe\", \"items\": [{\"productId\": \"PRD-001\", \"quantity\": 2, \"price\": 29.99}, {\"productId\": \"PRD-002\", \"quantity\": 1, \"price\": 49.99}], \"totalAmount\": 109.97, \"orderDate\": \"2024-02-23T14:30:00Z\"}",
+      "attributes": {
+        "ApproximateReceiveCount": "1",
+        "SentTimestamp": "1523232000000",
+        "SenderId": "123456789012",
+        "ApproximateFirstReceiveTimestamp": "1523232000001"
+      },
+      "messageAttributes": {},
+      "md5OfBody": "7b270e59b47ff90a553787216d55d91d",
+      "eventSource": "aws:sqs",
+      "eventSourceARN": "arn:aws:sqs:region:123456789012:MyQueue",
+      "awsRegion": "us-east-1"
+    }
+  ]
+}
+```
+
+

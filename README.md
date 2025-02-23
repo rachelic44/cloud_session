@@ -197,5 +197,8 @@ def lambda_handler(event, context):
 ```
 look at the logs:
 --- does it work? what is missins? 
-
+make sure your lambda role has the following permissions:
+AWSLambdaBasicExecutionRole
+AWSLambdaSQSQueueExecutionRole
+AmazonS3FullAccess
 

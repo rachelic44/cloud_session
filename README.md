@@ -12,15 +12,8 @@ Lambda function reads messages from SQS queue and saves them to S3 bucket.
 
 ## Setup Steps
 
-### 1. SQS Queue Creation
-1. Go to SQS Console
-2. Click "Create queue"
-3. Name it `{your-name}-orders-queue`
-4. Keep default settings (Standard queue)
-5. Create queue
 
-
-### 2. Lambda Function Creation
+### 1. Lambda Function Creation
 1. Go to Lambda Console
 2. Click "Create function"
 3. Select "Author from scratch"
@@ -28,13 +21,6 @@ Lambda function reads messages from SQS queue and saves them to S3 bucket.
 5. Runtime: Python 3.12
 6. Create function
 
-### 3. Add SQS Trigger to Lambda
-1. In Lambda function page
-2. Click "Add trigger"
-3. Select "SQS"
-4. Select your queue
-5. Keep batch size as 1
-6. Click "Add"
 
 ## Code Snippets
 
@@ -85,6 +71,20 @@ def lambda_handler(event, context):
     }
 ```
 
+### 2. SQS Queue Creation
+1. Go to SQS Console
+2. Click "Create queue"
+3. Name it `{your-name}-orders-queue`
+4. Keep default settings (Standard queue)
+5. Create queue
+
+### 3. Add SQS Trigger to Lambda
+1. In Lambda function page
+2. Click "Add trigger"
+3. Select "SQS"
+4. Select your queue
+5. Keep batch size as 1
+6. Click "Add"
 
 
 ## Testing

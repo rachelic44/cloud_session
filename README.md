@@ -42,52 +42,46 @@ Lambda function reads messages from SQS queue and saves them to S3 bucket.
 ```python
 import json
 import logging
-import boto3
-from datetime import datetime
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-# Initialize S3 client
-s3 = boto3.client('s3')
-
 def lambda_handler(event, context):
-    # Replace with your bucket name
-    bucket_name = 'your-name-orders-bucket'
-    
+    # Log the entire event for debugging
     logger.info(f"Received event: {json.dumps(event)}")
     
+    # Process each record from SQS
     for record in event['Records']:
         try:
             # Parse the message body
             message_body = json.loads(record['body'])
             
-            # Create a unique file name using timestamp and order ID
-            timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
+            # Log the parsed message
+            logger.info(f"Processed message: {json.dumps(message_body)}")
+            
+            # Extract key information
             order_id = message_body['orderId']
-            file_name = f"orders/{timestamp}-order-{order_id}.json"
-            
-            # Save to S3
-            s3.put_object(
-                Bucket=bucket_name,
-                Key=file_name,
-                Body=json.dumps(message_body, indent=2),
-                ContentType='application/json'
-            )
-            
-            logger.info(f"Saved order {order_id} to S3: {file_name}")
-            
-            # Process order details
             customer = message_body['customerName']
             total = message_body['totalAmount']
-            logger.info(f"Processed order {order_id} from {customer} for ${total}")
             
+            logger.info(f"Order {order_id} from {customer} for ${total}")
+            
+            # Process items
+            for item in message_body['items']:
+                product_id = item['productId']
+                quantity = item['quantity']
+                logger.info(f"- Product: {product_id}, Quantity: {quantity}")
+                
+        except json.JSONDecodeError as e:
+            logger.error(f"Failed to parse JSON: {e}")
+        except KeyError as e:
+            logger.error(f"Missing expected field: {e}")
         except Exception as e:
             logger.error(f"Error processing message: {e}")
     
     return {
         'statusCode': 200,
-        'body': json.dumps('Messages processed and saved to S3')
+        'body': json.dumps('Messages processed successfully')
     }
 ```
 

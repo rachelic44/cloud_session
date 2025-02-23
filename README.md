@@ -84,7 +84,7 @@ def lambda_handler(event, context):
 3. Select "SQS"
 4. Select your queue
 5. Keep batch size as 1
-6. Click "Add"
+6. Click "Add" --- does it work? what is missins?
 
 
 ## Testing
@@ -195,6 +195,7 @@ def lambda_handler(event, context):
         'body': json.dumps('Messages processed and saved to S3')
     }
 ```
-
+look at the logs:
+--- does it work? what is missins? 
 
 
